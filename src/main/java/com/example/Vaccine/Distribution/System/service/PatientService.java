@@ -23,6 +23,8 @@ public class PatientService {
     VaccinationCenterService vaccinationCenterService;
     @Autowired
     DoctorService doctorService;
+    @Autowired
+    MailService mailService;
 
     public Patient signup(PatientSignupDTO patientSignupDTO){
 
@@ -35,7 +37,7 @@ public class PatientService {
         patient.setPassword(patientSignupDTO.getPassword());
         patient.setAadhaarNumber(patientSignupDTO.getAadhaarNumber());
         patient.setPhoneNumber(patientSignupDTO.getPhoneNumber());
-        patient.setVcPreference(patientSignupDTO.getVcPreference().toString());
+        patient.setVcPreference(patientSignupDTO.getVcPreference());
 
         patientRepository.save(patient);
         return patient;
@@ -43,11 +45,12 @@ public class PatientService {
 
     public Patient login(PatientLoginDTO patientLoginDTO){
         String email = patientLoginDTO.getEmail();
+        String pass = patientLoginDTO.getPassword();
         Patient patient = patientRepository.getPatientByEmail(email);
         if(patient==null){
             throw new PatientDoesNotExistException("Patient email Id is not registered on this portal");
         }
-        if(!patient.getEmail().equals(email)){
+        if(!patient.getPassword().equals(pass)){
             throw new WrongCredentialException("Password entered is Wrong");
         }
         return  patient;
@@ -76,10 +79,24 @@ public class PatientService {
         appointmentDTO.setDocName(doctor.getDocName());
         appointmentDTO.setVaccinationCenterName(center.getVccName());
         appointmentDTO.setDoseNumber(p.getDoseCount()+1);
+        // to send mail
+        String to= p.getEmail();
+        String sub = String.format("Congratulations !! %s, your slot for vaccination booked",p.getPatientName());
+        String text = String.format("""
+                        Hi %s your Appointment got created, below are your details
+                         1. Dose count : %d
+                         2. Doctor Name : %s
+                         3. Vaccination Center: %s
+                         4. Address: %s""",
+                p.getPatientName(),(p.getDoseCount()+1),doctor.getDocName(),center.getVccName(),center.getVccAddress()
+        );
+        mailService.generateMail(to,sub,text);
+
         return appointmentDTO;
     }
 
     public void updateDoseCountByOne(Patient patient){
         patientRepository.updateDoseCountByOne(patient.getId(),patient.getDoseCount()+1);
     }
+
 }

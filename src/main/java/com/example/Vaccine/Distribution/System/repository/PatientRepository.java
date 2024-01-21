@@ -17,6 +17,6 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
     @Modifying
     @Transactional
-    @Query(value = "update patient set doseCount=:doseCount where id=:id",nativeQuery = true)
-    void updateDoseCountByOne(@Param("id") UUID id,@Param("doseCount") int doseCount);
+    @Query(value = "update patient set dose_count=:doseCount where id=:id",nativeQuery = true)
+    void updateDoseCountByOne(@Param("id") UUID id, @Param("doseCount") int doseCount);
 }

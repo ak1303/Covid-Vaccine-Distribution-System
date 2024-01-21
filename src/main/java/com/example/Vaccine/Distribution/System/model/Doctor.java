@@ -26,5 +26,4 @@ public class Doctor {
     VaccinationCenter vaccinationCenter;
     @ManyToMany
     List<Patient> patients;
-
 }

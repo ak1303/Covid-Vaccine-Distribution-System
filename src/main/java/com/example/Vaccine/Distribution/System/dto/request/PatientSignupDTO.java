@@ -11,7 +11,7 @@ import lombok.*;
 public class PatientSignupDTO {
     private String patientName;
     private String aadhaarNumber;
-    VaccinePreference vcPreference;
+    private String vcPreference;
     private String phoneNumber;
     private String email;
     private String password;

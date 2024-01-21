@@ -39,8 +39,9 @@ public class PatientController {
         }
     }
     @PostMapping("/createappointment")
-    public ResponseEntity createAppointment(@RequestParam String email, @RequestParam VaccinationCenterPrefrence vaccinationCenterPreference){
-        AppointmentDTO appointmentDTO = patientService.createAppointment(email,vaccinationCenterPreference.toString());
+    public ResponseEntity createAppointment(@RequestParam String email, @RequestParam("preference") String vaccinationCenterPreference){
+        AppointmentDTO appointmentDTO = patientService.createAppointment(email,vaccinationCenterPreference);
         return new ResponseEntity(appointmentDTO,HttpStatus.CREATED);
     }
 }
+//https://www.twilio.com/blog/send-basic-sms-java-springboot

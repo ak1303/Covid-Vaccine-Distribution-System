@@ -19,7 +19,7 @@ public class VaccinationCenter {
     private UUID id;
 
     private String vccName;
-    private String Type;//govt or private
+    private String type;//govt or private
     private int covishield_count;
     private int covaxin_count;
     private int sputnik_count;

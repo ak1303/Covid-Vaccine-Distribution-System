@@ -17,7 +17,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
     List<Doctor> getDoctorWithMinPatientOnBasisOfVC(@Param("id") UUID Id);
     @Modifying
     @Transactional
-    @Query(value = "update doctor set patient_count=:count where doc_id=:id",nativeQuery = true)
+    @Query(value = "update doctor set no_of_patient=:count where id=:id",nativeQuery = true)
     void updatePatientCountByOneInDoctor(@Param("count") int patientCount,@Param("id") UUID id);
 
     @Modifying

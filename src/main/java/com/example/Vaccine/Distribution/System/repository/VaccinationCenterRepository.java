@@ -24,12 +24,12 @@ public interface VaccinationCenterRepository extends JpaRepository<VaccinationCe
 
     @Modifying
     @Transactional
-    @Query(value = "update vaccination_center set doc_count=:count where vcc_id=:id",nativeQuery = true)
+    @Query(value = "update vaccination_center set doc_count=:count where id=:id",nativeQuery = true)
     public void updateDoctorCountByOne(@Param("count") int docCount,@Param("id") UUID id);
 
     @Modifying
     @Transactional
-    @Query(value = "update vaccination_center set patient_count=:count where vcc_id=:id", nativeQuery = true)
+    @Query(value = "update vaccination_center set patient_count=:count where id=:id", nativeQuery = true)
     public void updatePatientCountByOneInVC(@Param("count") int patientCount,@Param("id") UUID id);
 
 
